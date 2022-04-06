@@ -12,7 +12,7 @@ const gameUI = {
     $(`#${currentColor}`).addClass("pressed");
     setTimeout(() => {
       $(`#${currentColor}`).removeClass("pressed");
-    }, 100);
+    }, 125);
   },
   loadAudio() {
     let audio = new Audio("./sounds/green.mp3");
