@@ -26,11 +26,13 @@ const gameUI = {
 const gameControls = {
   initGame() {
     gameUI.loadAudio();
-    this._handleUserClicks();
     $(document).keypress(() => {
       if (gameData.started === false) {
         this._nextSequence();
         gameData.started = true;
+        if (gameData.started === true) {
+          $(gameData.button).on("click", this._handleClicks.bind(this));
+        }
       }
     });
   },
@@ -61,6 +63,7 @@ const gameControls = {
         }, 875);
       }
     } else {
+      $(gameData.button).off("click");
       $("body").addClass("game-over");
       $("h1").text("Game Over, Press Any Key to Restart");
       setTimeout(() => {
@@ -72,15 +75,13 @@ const gameControls = {
       this._startOver();
     }
   },
-  _handleUserClicks() {
-    $(gameData.button).click((e) => {
-      let userChosenColor = e.target.id;
-      gameData.userClickedPattern.push(userChosenColor);
+  _handleClicks(e) {
+    let userChosenColor = e.target.id;
+    gameData.userClickedPattern.push(userChosenColor);
 
-      gameUI.playSound(userChosenColor);
-      gameUI.animatePress(userChosenColor);
-      this._checkAnswer(gameData.userClickedPattern.length - 1);
-    });
+    gameUI.playSound(userChosenColor);
+    gameUI.animatePress(userChosenColor);
+    this._checkAnswer(gameData.userClickedPattern.length - 1);
   },
 };
 
